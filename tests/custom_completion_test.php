@@ -35,12 +35,6 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->dirroot . '/mod/game/lib.php');
 
-// Define completion constants if not already defined.
-defined('COMPLETION_INCOMPLETE') || define('COMPLETION_INCOMPLETE', 0);
-defined('COMPLETION_COMPLETE') || define('COMPLETION_COMPLETE', 1);
-defined('COMPLETION_COMPLETE_PASS') || define('COMPLETION_COMPLETE_PASS', 2);
-defined('COMPLETION_COMPLETE_FAIL') || define('COMPLETION_COMPLETE_FAIL', 3);
-
 /**
  * Class for unit testing mod_game/custom_completion.
  *
@@ -63,16 +57,16 @@ class custom_completion_test extends advanced_testcase {
                 'completionrule', false, null, \coding_exception::class
             ],
             'Pass grade rule not satisfied' => [
-                'completionpass', false, COMPLETION_INCOMPLETE, null
+                'completionpass', false, 0, null  // COMPLETION_INCOMPLETE = 0
             ],
             'Pass grade rule satisfied' => [
-                'completionpass', true, COMPLETION_COMPLETE, null
+                'completionpass', true, 1, null  // COMPLETION_COMPLETE = 1
             ],
             'Attempts exhausted rule not satisfied' => [
-                'completionattemptsexhausted', false, COMPLETION_INCOMPLETE, null
+                'completionattemptsexhausted', false, 0, null  // COMPLETION_INCOMPLETE = 0
             ],
             'Attempts exhausted rule satisfied' => [
-                'completionattemptsexhausted', true, COMPLETION_COMPLETE, null
+                'completionattemptsexhausted', true, 1, null  // COMPLETION_COMPLETE = 1
             ],
         ];
     }
