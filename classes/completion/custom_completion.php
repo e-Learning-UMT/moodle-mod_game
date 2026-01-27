@@ -41,6 +41,29 @@ use core_completion\activity_custom_completion;
 class custom_completion extends activity_custom_completion {
 
     /**
+     * Fetches the list of custom completion rules that are being used by this activity module instance.
+     *
+     * Overridden to get the rules from the game instance settings instead of customdata.
+     *
+     * @return array
+     */
+    public function get_available_custom_rules(): array {
+        global $DB;
+
+        $game = $DB->get_record('game', ['id' => $this->cm->instance], '*', MUST_EXIST);
+        $availablerules = [];
+
+        if (!empty($game->completionpass)) {
+            $availablerules[] = 'completionpass';
+        }
+        if (!empty($game->completionattemptsexhausted)) {
+            $availablerules[] = 'completionattemptsexhausted';
+        }
+
+        return $availablerules;
+    }
+
+    /**
      * Fetches the completion state for a given completion rule.
      *
      * @param string $rule The completion rule.
@@ -58,8 +81,6 @@ class custom_completion extends activity_custom_completion {
             $status = COMPLETION_INCOMPLETE;
             
             if (!empty($game->completionpass)) {
-                require_once(__DIR__ . '/../../locallib.php');
-                
                 // Check for passing grade.
                 $item = \grade_item::fetch([
                     'courseid' => $this->cm->course,

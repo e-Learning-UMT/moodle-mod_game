@@ -26,7 +26,11 @@ defined('MOODLE_INTERNAL') || die();
 
 // Include those library functions that are also used by core Moodle or other modules.
 require_once(dirname(__FILE__) . '/lib.php');
-require_once($CFG->dirroot . '/mod/quiz/locallib.php');
+
+global $CFG;
+if (file_exists($CFG->dirroot . '/mod/quiz/locallib.php')) {
+    require_once($CFG->dirroot . '/mod/quiz/locallib.php');
+}
 
 // CONSTANTS.
 /*
