@@ -89,10 +89,14 @@ class custom_completion extends activity_custom_completion {
                     'outcomeid' => null,
                 ]);
 
-                if ($item) {
+                if ($item && $item->gradepass > 0) {
                     $grades = \grade_grade::fetch_users_grades($item, [$userid], false);
-                    if (!empty($grades[$userid]) && $grades[$userid]->is_passed($item)) {
-                        $status = COMPLETION_COMPLETE;
+                    if (!empty($grades[$userid])) {
+                        $grade = $grades[$userid];
+                        // Check if finalgrade is set and meets or exceeds the pass grade.
+                        if ($grade->finalgrade !== null && $grade->finalgrade >= $item->gradepass) {
+                            $status = COMPLETION_COMPLETE;
+                        }
                     }
                 }
             }

@@ -225,19 +225,37 @@ final class custom_completion_test extends advanced_testcase {
         global $CFG;
         require_once($CFG->libdir . '/gradelib.php');
 
-        // Set grade for user using grade_update - this will create the grade item if needed.
+        // First ensure the grade item exists and has the correct gradepass.
+        $gradeitem = \grade_item::fetch([
+            'itemtype' => 'mod',
+            'itemmodule' => 'game',
+            'iteminstance' => $game->id,
+        ]);
+
+        if (!$gradeitem) {
+            // Create grade item with pass grade.
+            $gradeitem = new \grade_item();
+            $gradeitem->courseid = $game->course;
+            $gradeitem->itemtype = 'mod';
+            $gradeitem->itemmodule = 'game';
+            $gradeitem->iteminstance = $game->id;
+            $gradeitem->itemname = $game->name;
+            $gradeitem->gradetype = GRADE_TYPE_VALUE;
+            $gradeitem->grademax = 100;
+            $gradeitem->grademin = 0;
+            $gradeitem->gradepass = 60;
+            $gradeitem->insert();
+        } else {
+            // Update existing grade item to ensure gradepass is set.
+            $gradeitem->gradepass = 60;
+            $gradeitem->update();
+        }
+
+        // Now set the user's grade.
         $grades = new \stdClass();
         $grades->userid = $user->id;
         $grades->rawgrade = $grade;
 
-        $params = [
-            'itemname' => $game->name,
-            'gradetype' => GRADE_TYPE_VALUE,
-            'grademax' => 100,
-            'grademin' => 0,
-            'gradepass' => 60, // Pass grade is 60%
-        ];
-
-        grade_update('mod/game', $game->course, 'mod', 'game', $game->id, 0, $grades, $params);
+        grade_update('mod/game', $game->course, 'mod', 'game', $game->id, 0, $grades);
     }
 }
