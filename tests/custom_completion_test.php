@@ -107,19 +107,9 @@ class custom_completion_test extends advanced_testcase {
         ];
         $game = $this->getDataGenerator()->create_module('game', $params);
 
-        // Update course_modules table with custom completion data.
-        $cm = get_coursemodule_from_instance('game', $game->id);
-        $customdata = [
-            'customcompletionrules' => [
-                'completionpass' => 1,
-                'completionattemptsexhausted' => 1,
-            ]
-        ];
-        $DB->set_field('course_modules', 'customdata', json_encode($customdata), ['id' => $cm->id]);
-        
-        // Rebuild modinfo cache to load the updated customdata.
+        // Get fresh course module info.
         rebuild_course_cache($course->id, true);
-        $cminfo = get_fast_modinfo($course->id)->get_cm($cm->id);
+        $cminfo = get_fast_modinfo($course->id)->get_cm(get_coursemodule_from_instance('game', $game->id)->id);
         // Set up grade if needed for pass rule.
         if ($rule == 'completionpass') {
             if ($rulemet) {
