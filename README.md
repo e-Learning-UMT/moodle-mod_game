@@ -1,6 +1,8 @@
 Game module for Moodle
 Copyright (C) 2004-2015 by Vasilis Daloukas (https://scholar.google.com/citations?user=jFFbeLsAAAAJ&hl=el)
 
+[![Moodle Plugin CI](https://github.com/e-Learning-UMT/moodle-mod_game/workflows/Moodle%20Plugin%20CI/badge.svg)](https://github.com/e-Learning-UMT/moodle-mod_game/actions)
+
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 3 of the License, or
@@ -16,6 +18,13 @@ http: www.gnu.org/copyleft/gpl.html
 Game module for Moodle
 ===============================================================================
 Created by: Vasilis Daloukas (https://scholar.google.com/citations?user=jFFbeLsAAAAJ)
+
+## Moodle Compatibility
+
+- **Moodle 4.1 LTS**: PHP 7.4, 8.0, 8.1
+- **Moodle 4.5**: PHP 8.1, 8.2
+- **Moodle 5.0**: PHP 8.2, 8.3
+- **Moodle 5.1**: PHP 8.2, 8.3 ✓ Fully tested with CI
 
 
 Many ideas and code were taken from other Moodle modules and Moodle itself
