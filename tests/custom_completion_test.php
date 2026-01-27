@@ -35,6 +35,12 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->dirroot . '/mod/game/lib.php');
 
+// Define completion constants if not already defined.
+defined('COMPLETION_INCOMPLETE') || define('COMPLETION_INCOMPLETE', 0);
+defined('COMPLETION_COMPLETE') || define('COMPLETION_COMPLETE', 1);
+defined('COMPLETION_COMPLETE_PASS') || define('COMPLETION_COMPLETE_PASS', 2);
+defined('COMPLETION_COMPLETE_FAIL') || define('COMPLETION_COMPLETE_FAIL', 3);
+
 /**
  * Class for unit testing mod_game/custom_completion.
  *
@@ -54,10 +60,10 @@ class custom_completion_test extends advanced_testcase {
     public static function get_state_provider(): array {
         return [
             'Undefined rule' => [
-                'completionrule', false, null, coding_exception::class
+                'completionrule', false, null, \coding_exception::class
             ],
             'Pass grade rule not satisfied' => [
-                'completionpass', true, COMPLETION_INCOMPLETE, null
+                'completionpass', false, COMPLETION_INCOMPLETE, null
             ],
             'Pass grade rule satisfied' => [
                 'completionpass', true, COMPLETION_COMPLETE, null
