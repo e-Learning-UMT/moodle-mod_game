@@ -1,7 +1,7 @@
 Game module for Moodle
 Copyright (C) 2004-2015 by Vasilis Daloukas (https://scholar.google.com/citations?user=jFFbeLsAAAAJ&hl=el)
 
-[![Moodle Plugin CI](https://github.com/e-Learning-UMT/moodle-mod_game/workflows/Moodle%20Plugin%20CI/badge.svg)](https://github.com/e-Learning-UMT/moodle-mod_game/actions)
+[![Moodle Plugin CI](https://github.com/e-Learning-UMT/moodle-mod_game/actions/workflows/ci.yml/badge.svg)](https://github.com/e-Learning-UMT/moodle-mod_game/actions/workflows/ci.yml)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
