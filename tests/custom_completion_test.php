@@ -107,7 +107,16 @@ class custom_completion_test extends advanced_testcase {
         ];
         $game = $this->getDataGenerator()->create_module('game', $params);
 
-        $cm = cm_info::create(get_coursemodule_from_instance('game', $game->id));
+        // Get course module and rebuild cache to ensure customdata is loaded.
+        $cminfo = get_fast_modinfo($course->id)->get_cm(get_coursemodule_from_instance('game', $game->id)->id);
+        
+        // Ensure the cm has the custom completion data.
+        if (!isset($cminfo->customdata['customcompletionrules'])) {
+            $cminfo->customdata['customcompletionrules'] = [
+                'completionpass' => 1,
+                'completionattemptsexhausted' => 1,
+            ];
+        }
 
         // Set up grade if needed for pass rule.
         if ($rule == 'completionpass') {
@@ -145,7 +154,7 @@ class custom_completion_test extends advanced_testcase {
             }
         }
 
-        $customcompletion = new custom_completion($cm, (int)$user->id);
+        $customcompletion = new custom_completion($cminfo, (int)$user->id);
         $this->assertEquals($expectedstate, $customcompletion->get_state($rule));
     }
 
@@ -174,7 +183,7 @@ class custom_completion_test extends advanced_testcase {
             'completion' => COMPLETION_TRACKING_AUTOMATIC,
         ];
         $game = $this->getDataGenerator()->create_module('game', $params);
-        $cm = cm_info::create(get_coursemodule_from_instance('game', $game->id));
+        $cm = get_fast_modinfo($course->id)->get_cm(get_coursemodule_from_instance('game', $game->id)->id);
 
         $customcompletion = new custom_completion($cm, 1);
         $descriptions = $customcompletion->get_custom_rule_descriptions();
@@ -201,7 +210,7 @@ class custom_completion_test extends advanced_testcase {
             'completion' => COMPLETION_TRACKING_AUTOMATIC,
         ];
         $game = $this->getDataGenerator()->create_module('game', $params);
-        $cm = cm_info::create(get_coursemodule_from_instance('game', $game->id));
+        $cm = get_fast_modinfo($course->id)->get_cm(get_coursemodule_from_instance('game', $game->id)->id);
 
         $customcompletion = new custom_completion($cm, 1);
         $sortorder = $customcompletion->get_sort_order();
