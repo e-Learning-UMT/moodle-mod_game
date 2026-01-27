@@ -39,7 +39,6 @@ use core_completion\activity_custom_completion;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class custom_completion extends activity_custom_completion {
-
     /**
      * Fetches the list of custom completion rules that are being used by this activity module instance.
      *
@@ -79,7 +78,7 @@ class custom_completion extends activity_custom_completion {
 
         if ($rule == 'completionpass') {
             $status = COMPLETION_INCOMPLETE;
-            
+
             if (!empty($game->completionpass)) {
                 // Check for passing grade.
                 $item = \grade_item::fetch([
@@ -87,9 +86,9 @@ class custom_completion extends activity_custom_completion {
                     'itemtype' => 'mod',
                     'itemmodule' => 'game',
                     'iteminstance' => $this->cm->instance,
-                    'outcomeid' => null
+                    'outcomeid' => null,
                 ]);
-                
+
                 if ($item) {
                     $grades = \grade_grade::fetch_users_grades($item, [$userid], false);
                     if (!empty($grades[$userid]) && $grades[$userid]->is_passed($item)) {
@@ -97,27 +96,27 @@ class custom_completion extends activity_custom_completion {
                     }
                 }
             }
-            
+
             return $status;
         }
 
         if ($rule == 'completionattemptsexhausted') {
             $status = COMPLETION_INCOMPLETE;
-            
+
             if (!empty($game->completionattemptsexhausted)) {
                 // Check if user has exhausted all attempts.
                 // Get the number of attempts made by the user.
                 $attempts = $DB->count_records('game_attempts', [
                     'gameid' => $game->id,
-                    'userid' => $userid
+                    'userid' => $userid,
                 ]);
-                
+
                 // If attempts are unlimited (0) or maxattempts not set, this rule doesn't apply.
                 if (!empty($game->maxattempts) && $attempts >= $game->maxattempts) {
                     $status = COMPLETION_COMPLETE;
                 }
             }
-            
+
             return $status;
         }
 

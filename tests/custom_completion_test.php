@@ -44,8 +44,7 @@ require_once($CFG->dirroot . '/mod/game/lib.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @covers     \mod_game\completion\custom_completion
  */
-class custom_completion_test extends advanced_testcase {
-
+final class custom_completion_test extends advanced_testcase {
     /**
      * Data provider for get_state().
      *
@@ -54,19 +53,19 @@ class custom_completion_test extends advanced_testcase {
     public static function get_state_provider(): array {
         return [
             'Undefined rule' => [
-                'completionrule', false, null, \coding_exception::class
+                'completionrule', false, null, \coding_exception::class,
             ],
             'Pass grade rule not satisfied' => [
-                'completionpass', false, 0, null  // COMPLETION_INCOMPLETE = 0
+                'completionpass', false, 0, null, // COMPLETION_INCOMPLETE = 0
             ],
             'Pass grade rule satisfied' => [
-                'completionpass', true, 1, null  // COMPLETION_COMPLETE = 1
+                'completionpass', true, 1, null, // COMPLETION_COMPLETE = 1
             ],
             'Attempts exhausted rule not satisfied' => [
-                'completionattemptsexhausted', false, 0, null  // COMPLETION_INCOMPLETE = 0
+                'completionattemptsexhausted', false, 0, null, // COMPLETION_INCOMPLETE = 0
             ],
             'Attempts exhausted rule satisfied' => [
-                'completionattemptsexhausted', true, 1, null  // COMPLETION_COMPLETE = 1
+                'completionattemptsexhausted', true, 1, null, // COMPLETION_COMPLETE = 1
             ],
         ];
     }
@@ -230,15 +229,15 @@ class custom_completion_test extends advanced_testcase {
         $grades = new \stdClass();
         $grades->userid = $user->id;
         $grades->rawgrade = $grade;
-        
+
         $params = [
             'itemname' => $game->name,
             'gradetype' => GRADE_TYPE_VALUE,
             'grademax' => 100,
             'grademin' => 0,
-            'gradepass' => 60 // Pass grade is 60%
+            'gradepass' => 60, // Pass grade is 60%
         ];
-        
+
         grade_update('mod/game', $game->course, 'mod', 'game', $game->id, 0, $grades, $params);
     }
 }
