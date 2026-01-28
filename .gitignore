@@ -1,0 +1,5 @@
+# Local development scripts
+check-code.sh
+
+# PHPUnit configuration
+phpunit.xml
